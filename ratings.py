@@ -3,31 +3,52 @@
 #Reads the ratings in from the file
 rate_file = open("scores.txt")
 
-#Prompt the user for a restaurant name
-r_name = input("What's the restaurant name?")
-#Prompt the user for a restaurant score
-score = int(input("What's the restaurant score?"))
+def lst_from_file(file):
+    """Get the data from the file and return a list"""
+    ratings = []
+    for line in file:
+        line = line.rstrip()
+        strip_line = line.split(":")
+        ratings.append(strip_line)
+    return ratings
 
-#Store the new restaurant/rating in the dictionary
-rest_dict = {}
 
-ratings = []
-ratings.append([r_name, score])
-#split each line up by ":" and put them in a list called ratings
-for line in rate_file:
-    line = line.rstrip()
-    strip_line = line.split(":")
-    ratings.append(strip_line)
-#sorts them using sorted function
-ratings_2 = sorted(ratings)
+def list_into_dict(lst):
+    """Make the list into a dictionary"""
+    rest_dict = {}
+    for elem in lst:
+        rest_dict[elem[0]] = elem[1]
+    return rest_dict #return this into a variable so that other fxns can use it
 
-#Stores them in a dictionary
-for elem in ratings_2:
-    rest_dict[elem[0]] = elem[1]
+    
+def add_user_input():
+    """Get and add user input to the dictionary"""
+    r_name = input("What's the restaurant name?")
+    score = input("What's the restaurant score?")
+    return [r_name, score]
 
-#And finally, spits out the ratings in alphabetical order by restaurant
-#Print all of the ratings in alphabetical order (including the new one, of course)
+def merge_lists(list1, list2):
+    """Merge and sort two lists"""
+    full_list = (list1 + list2)
+    # full_list = list1.append(list2)
+    sorted_list = sorted(full_list)
+    
+    return sorted_list
+    
+def print_alph_ratings(rest_dict):
+    """print an alphabetized and formatted list of ratings"""
+    for key, value in rest_dict.items():
+        print(f"{key} is rated {value}")
 
-for key, value in rest_dict.items():
-    print(f"{key} is rated {value}")
-#return None
+
+initial_ratings = lst_from_file(rate_file)
+
+sorted_list = sorted(initial_ratings)
+
+ratings_dict = list_into_dict(sorted_list)
+#print(ratings_dict)
+new_r_data = add_user_input()
+merged_lists = merge_lists(sorted_list, new_r_data)
+final_dict = list_into_dict(merged_lists)
+print_alph_ratings(final_dict)
+
