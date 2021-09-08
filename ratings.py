@@ -29,11 +29,11 @@ def add_user_input():
 
 def merge_lists(list1, list2):
     """Merge and sort two lists"""
-    full_list = (list1 + list2)
-    # full_list = list1.append(list2)
-    sorted_list = sorted(full_list)
+    # full_list = list1 + list2
+    full_list = list1.append(list2)
+    full_list.sort()
     
-    return sorted_list
+    return full_list
     
 def print_alph_ratings(rest_dict):
     """print an alphabetized and formatted list of ratings"""
